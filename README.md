@@ -25,25 +25,24 @@ prophet()
   .then(successCallback, errorCallback)
 ```
 
-Steps are just regular success handlers for promises.
-Prophet can help you define such steps
+Steps are just regular success handlers for promises which take a `context` object
+as parameter and must return the same `context` object. They are allowed to mutate it
+
+Prophet can help you define such steps.
 
 ```javascript
-var firstStep = prophet.value({
-  name: 'name',
+var firstStep = prophet.value('name', {
   prompt: "What's your name?",
   accept: (name) => name.length < 24,
   hint: "Your name must be under 24 letters long"
 })
-var secondStep = prophet.value({
-  name: "nickname",
+var secondStep = prophet.value('nickname', {
   default: ({name}) => dasherize(name).toLowerCase()
   prompt: 'What is your nickname?',
   maxTries: 3,
   accept: [/^[a-z]+$/, isNicknameTaken] // isNicknameTaken can return either a value or a promise
 })
-var thirdStep = prophet.action({
-  name: "created",
+var thirdStep = prophet.action('created', {
   action: ({name, nickname}) => users.create({name, nickname}).then(user => true)
 })
 
@@ -71,8 +70,7 @@ You can also loop to get an array of values for example
 
 ```javascript
 prophet()
-  .then(prophet.loop({
-    name: 'favourites'
+  .then(prophet.loop('favourites', {
     item: prophet.value('url'),
     repeat: 3
   }))

@@ -24,8 +24,18 @@ describe('prophet.value("name")', function () {
       })
 
       describe('when prompt resolves to a value', function () {
-        it('returns a promise to that value', function () {
-          value(context).then(actual => expect(actual).to.equal(expected))
+        it('returns a promise to the context', function (done) {
+          value(context).then(actual => {
+            expect(actual).to.equal(context)
+            done()
+          }).catch(done)
+        })
+        it('has created the field name=value on the context', function (done) {
+          value(context).then(actual => {
+            expect(actual).to.have.property('name')
+            expect(actual.name).to.equal(expected)
+            done()
+          }).catch(done)
         })
       })
     })
