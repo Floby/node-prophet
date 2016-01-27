@@ -10,13 +10,13 @@ Prophet helps you create CLI wizards for your application
 Installation
 ------------
 
-    npm install --save prophet
+    npm install --save prophet-cli
 
 Usage
 -----
 
 ```javascript
-var prophet = require('prophet')
+var prophet = require('prophet-cli')
 
 prophet()
   .then(firstStep)

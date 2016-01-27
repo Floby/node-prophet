@@ -1,6 +1,6 @@
 {
-  "name": "prophet",
-  "version": "0.0.0",
+  "name": "prophet-cli",
+  "version": "1.0.0",
   "description": "CLI Wizard utility, with promises",
   "main": "index.js",
   "directories": {
