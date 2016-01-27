@@ -10,9 +10,9 @@ function Prophet (prompt, tell) {
 
 Prophet.value = function value (name, options) {
   options = options || {}
-  prompt = options.prompt || name
+  prompt = options.prompt || `${name}?`
   return function (context) {
-    return context.prompt(`${prompt}?`)
+    return context.prompt(prompt)
       .then(value => Object.assign(context, {[name]: value}))
   }
 }

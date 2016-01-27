@@ -47,7 +47,7 @@ describe('prophet.value("name")', function () {
     beforeEach(() => context = new Context())
     beforeEach(() => contextMock = sinon.mock(context))
     afterEach(() => contextMock.restore())
-    beforeEach(() => contextMock.expects('prompt').withArgs('something?').returns(Promise.resolve(expected)))
+    beforeEach(() => contextMock.expects('prompt').withArgs('something').returns(Promise.resolve(expected)))
     it('calls prompt(something fancy instead)', function () {
       value(context)
       contextMock.verify()
