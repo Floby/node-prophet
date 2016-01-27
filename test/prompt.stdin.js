@@ -20,7 +20,7 @@ describe('prompt(name)', function () {
 
   it('calls readline.question(name)', function() {
     prompt('name');
-    expect(rlMock.question).to.have.been.calledWith('name')
+    expect(rlMock.question).to.have.been.calledWith('name ')
   })
 
   describe('the returned promise', function () {
