@@ -40,4 +40,26 @@ describe('prophet.value("name")', function () {
       })
     })
   })
+
+  describe('with option prompt=something fancy', function () {
+    var context, value, contextMock, expected = {}
+    beforeEach(() => value = prophet.value('hello', {prompt: 'something'}))
+    beforeEach(() => context = new Context())
+    beforeEach(() => contextMock = sinon.mock(context))
+    afterEach(() => contextMock.restore())
+    beforeEach(() => contextMock.expects('prompt').withArgs('something?').returns(Promise.resolve(expected)))
+    it('calls prompt(something fancy instead)', function () {
+      value(context)
+      contextMock.verify()
+    })
+
+    it('still sets the resulting value to name', function (done) {
+      value(context).then(actual => {
+        expect(actual).to.have.property('hello')
+        expect(actual.hello).to.equal(expected)
+        done()
+      }).catch(done)
+    })
+  })
 })
+

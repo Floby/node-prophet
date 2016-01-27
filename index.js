@@ -8,9 +8,11 @@ function Prophet (prompt, tell) {
   return Promise.resolve(new ProphetContext(prompt, tell))
 }
 
-Prophet.value = function value (name) {
+Prophet.value = function value (name, options) {
+  options = options || {}
+  prompt = options.prompt || name
   return function (context) {
-    return context.prompt(`${name}?`)
+    return context.prompt(`${prompt}?`)
       .then(value => Object.assign(context, {[name]: value}))
   }
 }
