@@ -1,0 +1,29 @@
+{
+  "name": "prophet",
+  "version": "0.0.0",
+  "description": "CLI Wizard utility, with promises",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "istanbul cover --print detail _mocha -- -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Floby/node-prophet.git"
+  },
+  "keywords": [
+    "wizard",
+    "promise",
+    "promises",
+    "cli",
+    "setup"
+  ],
+  "author": "Florent Jaby <florent.jaby@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Floby/node-prophet/issues"
+  },
+  "homepage": "https://github.com/Floby/node-prophet#readme"
+}
