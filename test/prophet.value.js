@@ -15,9 +15,11 @@ describe('prophet.value("name")', function () {
       beforeEach(() => contextMock = sinon.mock(context))
       afterEach(() => contextMock.restore())
       beforeEach(() => contextMock.expects('prompt').withArgs('name?').returns(Promise.resolve(expected)))
+
       it('returns a promise', function () {
         expect(value(context)).to.be.an.instanceof(Promise)
       })
+
       it('calls prompt("name?")', function () {
         value(context)
         contextMock.verify()
