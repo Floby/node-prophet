@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "istanbul cover --print detail _mocha -- -R spec"
+    "test": "istanbul cover --print detail _mocha -- -R spec",
+    "coveralls": "cat coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/Floby/node-prophet/issues"
   },
-  "homepage": "https://github.com/Floby/node-prophet#readme"
+  "homepage": "https://github.com/Floby/node-prophet#readme",
+  "devDependencies": {
+    "coveralls": "^2.11.8"
+  }
 }
