@@ -1,5 +1,5 @@
 var expect = require('chai').expect
-var prophet = require('../index')
+var prophet = require('../')
 var sinon = require('sinon');
 var Context = require('../lib/prophet-context')
 

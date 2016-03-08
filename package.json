@@ -2,7 +2,7 @@
   "name": "prophet-cli",
   "version": "1.0.0",
   "description": "CLI Wizard utility, with promises",
-  "main": "index.js",
+  "main": "prophet.js",
   "directories": {
     "test": "test"
   },
