@@ -28,6 +28,11 @@
   },
   "homepage": "https://github.com/Floby/node-prophet#readme",
   "devDependencies": {
-    "coveralls": "^2.11.8"
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.8",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
   }
 }
