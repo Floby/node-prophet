@@ -5,7 +5,7 @@ node-prophet
 
 > CLI Wizard utility, with promises
 
-Prophet helps you create CLI wizards for your application
+Prophet helps you create CLI wizards for your application. A Wizard who makes promises : a prophet.
 
 Installation
 ------------
@@ -34,15 +34,13 @@ Prophet can help you define such steps.
 var firstStep = prophet.value('name', {
   prompt: "What's your name?",
   accept: (name) => name.length < 24,
-  hint: "Your name must be under 24 letters long"
 })
 var secondStep = prophet.value('nickname', {
   default: ({name}) => dasherize(name).toLowerCase()
   prompt: 'What is your nickname?',
-  maxTries: 3,
   accept: [/^[a-z]+$/, isNicknameTaken] // isNicknameTaken can return either a value or a promise
 })
-var thirdStep = prophet.action('created', {
+var lastStep = prophet.action('created', {
   action: ({name, nickname}) => users.create({name, nickname}).then(user => true)
 })
 
@@ -66,20 +64,8 @@ prophet()
   })
 ```
 
-You can also loop to get an array of values for example
-
-```javascript
-prophet()
-  .then(prophet.loop('favourites', {
-    item: prophet.value('url'),
-    repeat: 3
-  }))
-  .then(values => {
-    // values is {favourites: [{url: 'A'}, {url: 'B'}, { url: 'C'}]}
-  })
-```
-
 Simple wizards can be as simple as
+
 ```javascript
 prophet()
   .then(prophet.value('first name'))
