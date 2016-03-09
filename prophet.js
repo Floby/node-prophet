@@ -10,7 +10,6 @@ function Prophet (prompt, tell) {
 }
 
 Prophet.value = function value (name, options) {
-  options = options || {}
   return Prophet.action(name, new ValueAction(name, options))
 }
 
