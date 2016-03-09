@@ -11,9 +11,7 @@ function Prophet (prompt, tell) {
 Prophet.value = function value (name, options) {
   options = options || {}
   prompt = options.prompt || `${name}?`
-  return Prophet.action(name, {
-    action: context => context.prompt(prompt)
-  })
+  return Prophet.action(name, context => context.prompt(prompt))
 }
 
 Prophet.action = function action (name, options) {
