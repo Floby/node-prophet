@@ -27,4 +27,17 @@ describe('new ProphetContext(prompt, tell)', function () {
       expect(actual).to.equal('told')
     })
   })
+
+  describe('.assign(values)', function () {
+    it('returns the context', function () {
+      expect(context.assign({})).to.equal(context)
+    })
+    it('assign all the given values', function () {
+      context.assign({hello: 'goodbye', answer: 42})
+      expect(context).to.have.property('hello')
+      expect(context).to.have.property('answer')
+      expect(context.hello).to.equal('goodbye')
+      expect(context.answer).to.equal(42)
+    })
+  })
 })

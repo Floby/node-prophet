@@ -11,8 +11,25 @@ function Prophet (prompt, tell) {
 Prophet.value = function value (name, options) {
   options = options || {}
   prompt = options.prompt || `${name}?`
+  return Prophet.action(name, {
+    action: context => context.prompt(prompt)
+  })
+}
+
+Prophet.action = function action (name, options) {
+  var action = getActionFromOptions(options)
   return function (context) {
-    return context.prompt(prompt)
-      .then(value => Object.assign(context, {[name]: value}))
+    return action(context)
+      .then(result => context.assign({[name]: result}))
   }
+}
+
+function getActionFromOptions (options) {
+  options = options || {}
+  if (typeof options === 'function') options = { action: options }
+  var action = options.action
+  if (typeof action !== 'function') {
+    throw Error('Action must be a function which returns a promise')
+  }
+  return action
 }
