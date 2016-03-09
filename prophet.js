@@ -11,7 +11,13 @@ function Prophet (prompt, tell) {
 Prophet.value = function value (name, options) {
   options = options || {}
   prompt = options.prompt || `${name}?`
-  return Prophet.action(name, context => context.prompt(prompt))
+  accept = options.accept || /.*/
+  return Prophet.action(name, context => askUntilGood(context))
+
+  function askUntilGood(context) {
+    return context.prompt(prompt)
+      .then(value => accept.test(value) ? value : askUntilGood(context))
+  } 
 }
 
 Prophet.action = function action (name, options) {
@@ -31,3 +37,4 @@ function getActionFromOptions (options) {
   }
   return action
 }
+

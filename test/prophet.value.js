@@ -63,5 +63,39 @@ describe('prophet.value("name")', function () {
       }).catch(done)
     })
   })
+
+  describe('with options accept=<regex>', function () {
+    var regex = /^[a-z]+$/
+    var context, value, contextMock, expected = 'hey'
+    beforeEach(() => value = prophet.value('hello', { accept: regex }))
+    beforeEach(() => context = new Context())
+    beforeEach(() => contextMock = sinon.mock(context))
+    afterEach(() => contextMock.restore())
+    describe('when the entered value matches', function () {
+      it('resolves normally', function (done) {
+        contextMock.expects('prompt').withArgs('hello?').returns(Promise.resolve(expected))
+        value(context).then(actual => {
+          expect(actual.hello).to.equal(expected)
+          contextMock.verify()
+          done()
+        }).catch(done)
+      })
+    })
+
+    describe('when the first value does not match', function () {
+      it('prompts again before resolving', function (done) {
+        contextMock.expects('prompt').thrice()
+          .onFirstCall().returns(Promise.resolve('SOMETHING THAT DOES NOT MATCH'))
+          .onSecondCall().returns(Promise.resolve('SOMETHING THAT DOES NOT MATCH'))
+          .onThirdCall().returns(Promise.resolve(expected))
+
+        value(context).then(actual => {
+          expect(actual.hello).to.equal(expected)
+          contextMock.verify()
+          done()
+        }).catch(done)
+      })
+    })
+  })
 })
 
