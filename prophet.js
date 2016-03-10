@@ -30,4 +30,3 @@ function getActionFromOptions (options) {
   }
   return action
 }
-
