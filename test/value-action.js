@@ -21,9 +21,11 @@ describe('new ValueAction("name")', function () {
         expect(value(context)).to.be.an.instanceof(Promise)
       })
 
-      it('calls prompt("name?")', function () {
-        value(context)
-        contextMock.verify()
+      it('calls prompt("name?")', function (done) {
+        value(context).then(() => {
+          contextMock.verify()
+          done()
+        }).catch(done)
       })
 
       describe('when prompt resolves to a value', function () {
@@ -44,9 +46,11 @@ describe('new ValueAction("name")', function () {
     beforeEach(() => contextMock = sinon.mock(context))
     afterEach(() => contextMock.restore())
     beforeEach(() => contextMock.expects('prompt').withArgs('something').returns(Promise.resolve(expected)))
-    it('calls prompt(something fancy) instead', function () {
-      value(context)
-      contextMock.verify()
+    it('calls prompt(something fancy) instead', function (done) {
+      value(context).then(() => {
+        contextMock.verify()
+        done()
+      }).catch(done)
     })
 
     it('still resolves the resulting value', function (done) {
@@ -107,6 +111,59 @@ describe('new ValueAction("name")', function () {
           expect(acceptStub).to.have.been.calledThrice
           done()
         }).catch(done)
+      })
+    })
+  })
+
+  describe('with option default', function () {
+    var defaultOption = {}
+    var context, value, contextMock, expected = {}
+    var ValueAction, defaultStub, DefaultStub
+    beforeEach(() => defaultStub = sinon.stub())
+    beforeEach(() => DefaultStub = sinon.stub().returns(defaultStub))
+    beforeEach(function () {
+      ValueAction = proxyquire('../lib/value-action', {
+        './default': DefaultStub
+      })
+    })
+    beforeEach(() => value = ValueAction('hello', { default: defaultOption }))
+    beforeEach(() => context = new Context())
+    beforeEach(() => contextMock = sinon.mock(context))
+    afterEach(() => contextMock.restore())
+
+    it('constructs a new Default(options.default)', function () {
+      expect(DefaultStub).to.have.been.calledWith(defaultOption)
+    })
+
+    describe('when default resolve to a value', function () {
+      beforeEach(() => defaultStub.returns(Promise.resolve('hey!')))
+      it('prompts with an hint', function (done) {
+        contextMock.expects('prompt').withArgs('hello (hey!)?').returns(Promise.resolve('A'))
+        value(context).then(() => {
+          contextMock.verify()
+          expect(defaultStub).to.have.been.called
+          done()
+        }).catch(done)
+      })
+
+      describe('and prompt returns a empty string', function () {
+        it('resolves to the default value', function (done) {
+          contextMock.expects('prompt').returns(Promise.resolve(''))
+          value(context).then(actual => {
+            expect(actual).to.equal('hey!')
+            done()
+          }).catch(done)
+        })
+      })
+
+      describe('and prompt returns a value', function () {
+        it('resolves to the value', function (done) {
+          contextMock.expects('prompt').returns(Promise.resolve('goodbye'))
+          value(context).then(actual => {
+            expect(actual).to.equal('goodbye')
+            done()
+          }).catch(done)
+        })
       })
     })
   })
